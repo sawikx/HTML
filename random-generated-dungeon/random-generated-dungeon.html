@@ -1,0 +1,243 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<style>
+body{
+	color:red;
+	background-color:black;
+}
+#body{
+	height:100%;
+	width:100%;
+}
+#start{
+	position: absolute;
+	top: 45%;
+	left:35%;
+	height:40px;
+	width:40px;
+	background-color:green;
+}
+.c1{
+	background-color:blue;
+}
+.c2{
+	background-color:yellow;
+}
+
+.c3{
+	background-color:red;
+}
+.c0{
+	background-color:white;
+}
+</style>
+</head>
+<body>
+<div id="body">
+<div id="start">
+</div>
+</div>
+<script>
+document.addEventListener('keypress', logKey); // verx
+
+var kei; // keypress storage value
+var offsets = document.getElementById('start').getBoundingClientRect();
+var topp = offsets.top; 
+var left = offsets.left; 
+
+var color 	= new Array(); 
+var topp1 	= new Array();
+var left1 	= new Array();
+var restart = 0; // reupload
+
+for(var i=0;i<10;i++){
+	color[i]=0;
+	topp1[i]=0;
+	left1[i]=0;
+}
+topp1[11]=topp;
+left1[11]=left;
+
+var labpro	= new Array(11);
+for (var i = 0; i < labpro.length; i++) { 
+  labpro[i] = new Array(4); 
+} 
+//chance for a given room to appear
+labpro[0][0]= 1;labpro[0][1]= 11;labpro[0][2]= 100;labpro[0][3]=12;
+labpro[1][0]= 1;labpro[1][1]= 11;labpro[1][2]= 100;labpro[1][3]=16;
+labpro[2][0]= 1;labpro[2][1]= 11;labpro[2][2]= 100;labpro[2][3]=26;
+labpro[3][0]= 1;labpro[3][1]= 11;labpro[3][2]= 100;labpro[3][3]=36;
+labpro[4][0]= 0;labpro[4][1]= 5; labpro[4][2]= 100;labpro[4][3]=50;
+labpro[5][0]= 0;labpro[5][1]= 1; labpro[5][2]= 100;labpro[5][3]=61;
+labpro[6][0]= 0;labpro[6][1]= 1; labpro[6][2]= 100;labpro[6][3]=66;
+labpro[7][0]= 0;labpro[7][1]= 0; labpro[7][2]= 100;labpro[7][3]=70;
+labpro[8][0]= 0;labpro[8][1]= 0; labpro[8][2]= 100;labpro[8][3]=90;
+labpro[9][0]= 0;labpro[9][1]= 0; labpro[9][2]= 100;labpro[9][3]=99;
+labpro[10][0]= 0;labpro[10][1]= 0; labpro[10][2]= 0;labpro[10][3]=100;
+
+function gdzie(st,il,qr){//st = 0-left, 1-up, 2-right, 3-down
+
+	if(st ==4){
+		st=0;
+	}
+	if(st==-1){
+		st=3;
+	}
+	if(st==-2){
+		st=2;
+	}
+	if(st==5){
+		st=1;
+	}
+	
+	if(qr==1){
+		if(st==0){
+			left+=il;
+		}
+		else if(st==1){
+			topp-=il;
+		}
+		else if(st==2){
+			left-=il;
+		}
+		else{
+			topp+=il;
+		}
+	}
+	else{
+		if(st==0){
+			left-=40;
+		}
+		else if(st==1){
+			topp+=40;
+		}
+		else if(st==2){
+			left+=40;
+		}
+		else{
+			topp-=40;
+		}
+	}
+}
+
+function lab(l,st,kl){ 
+	gdzie(st,color[kl],0);
+	var fr = document.createElement("div");
+	fr.style.cssText = "position: absolute;height:40px;width:40px;left:"+left+"px;top:"+topp+"px;";			
+	
+	var lo = Math.floor(Math.random() * 101);
+	left1[l]=left;
+	topp1[l]=topp;
+	
+	if(labpro[l][0]>lo){
+		fr.className = "c3";
+		document.getElementById("body").appendChild(fr);
+		
+		lab(l+1,st-1,kl+1);
+	  
+		left=left1[l];
+		topp=topp1[l];
+		color[kl+1]=0;
+		
+		lab(l+1,st,kl+1);
+	  
+		left=left1[l];
+		topp=topp1[l];
+		color[kl+1]=0; 
+	  
+		lab(l+1,st+1,kl+1);
+	  
+		left=left1[l];
+		topp=topp1[l];
+		color[kl+1]=0; 
+	}
+	else if(labpro[l][1]>lo){
+		fr.className = "c2";
+		document.getElementById("body").appendChild(fr);
+		
+		lab(l+1,st-1,kl+1);
+	  
+		left=left1[l];
+		topp=topp1[l];
+		color[kl+1]=0;  
+		
+		lab(l+1,st+1,kl+1);
+		
+		left=left1[l];
+		topp=topp1[l];
+		color[kl+1]=0; 
+	}else if( labpro[l][3]>lo){
+		fr.className = "c0";
+		document.getElementById("body").appendChild(fr);
+		color[kl]+=40;
+		console.log(color[kl]);
+		return 0;
+	}
+	else{
+		fr.className = "c1";
+		document.getElementById("body").appendChild(fr);
+		color[kl]+=40;
+		
+		lab(l+1,st,kl);
+	}
+}
+
+function logKey(e) {
+  kei=e.code;
+	if(kei == "Enter"){
+		restart +=1;
+		if(restart ==2){
+			window.location.reload();
+		}
+		
+		left+=40;
+		var btn = document.createElement("div");
+		var los=Math.floor(Math.random() * 101)
+		btn.style.cssText = "position: absolute;height:40px;width:40px;left:"+left+"px;top:"+topp+"px;";			
+		
+		if(los>40){
+			btn.className = "c3";
+			document.getElementById("body").appendChild(btn);
+			
+			lab(0,1,0);
+			
+			left = left1[11]+40;
+			topp = topp1[11];
+			color[0]=0;
+			
+			lab(0,2,0);
+			
+			left = left1[11]+40;
+			topp = topp1[11];
+			color[0]=0;
+			
+			lab(0,3,0);
+		}
+		else if(los>10){
+			btn.className = "c2";
+			document.getElementById("body").appendChild(btn);
+			
+			lab(0,1,0);
+			
+			left = left1[11]+40;
+			topp = topp1[11];
+			color[0]=0;
+			
+			lab(0,3,0);
+		}	
+		else{
+			btn.className = "c1";
+			document.getElementById("body").appendChild(btn);
+			
+			lab(0,2,0);
+			
+			left = left1[11];
+			topp = topp1[11];
+			color[0]=0;
+		}
+	}
+}
+</script>
+</body>
+</html>
