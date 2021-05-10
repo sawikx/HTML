@@ -1,0 +1,47 @@
+header{
+	background-color:#1C59A7;
+	color:white;
+	text-align:center;
+	height:80px;
+}
+
+#le{
+	background-color:#3A70B5;
+	height:200px;
+	width:33%;
+	float:left;
+}
+
+#sr{
+	background-color:#5A8AC8;
+	height:200px;
+	width:33%;
+	float:left;
+}
+
+#pr{
+	
+	background-color:#86ACDD;
+	text-align:center;
+	height:200px;
+	width:34%;
+	float:left;
+	
+}
+#s{
+	clear:both;
+	background-color:#86ACDD;
+	height:300px;
+	text-align:center;
+}
+footer{
+	background-color:#1C59A7;
+	color:white;
+}
+#o{
+	
+	top:10px;
+	color:blue;
+	padding:10px;
+	background-color:yellow;
+}
